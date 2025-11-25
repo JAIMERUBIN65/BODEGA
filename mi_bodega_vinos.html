@@ -1,0 +1,481 @@
+<!DOCTYPE html>  
+<html lang="es">  
+<head>  
+  <meta charset="UTF-8" />  
+  <title>Mi Bodega de Vinos</title>  
+  <meta name="viewport" content="width=device-width, initial-scale=1" />  
+  <style>  
+    * {  
+      box-sizing: border-box;  
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;  
+    }  
+    body {  
+      margin: 0;  
+      padding: 16px;  
+      background: #f4f4f6;  
+      color: #222;  
+    }  
+    h1 {  
+      text-align: center;  
+      margin-bottom: 8px;  
+    }  
+    .subtitle {  
+      text-align: center;  
+      font-size: 0.9rem;  
+      color: #555;  
+      margin-bottom: 20px;  
+    }  
+    .container {  
+      display: grid;  
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.4fr);  
+      gap: 16px;  
+    }  
+    @media (max-width: 900px) {  
+      .container {  
+        grid-template-columns: 1fr;  
+      }  
+    }  
+    .card {  
+      background: #ffffff;  
+      border-radius: 10px;  
+      padding: 16px;  
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);  
+    }  
+    .card h2 {  
+      margin-top: 0;  
+      margin-bottom: 8px;  
+      font-size: 1.1rem;  
+    }  
+    form {  
+      display: grid;  
+      grid-template-columns: repeat(2, minmax(0, 1fr));  
+      gap: 10px 12px;  
+    }  
+    .full-width {  
+      grid-column: 1 / -1;  
+    }  
+    label {  
+      font-size: 0.8rem;  
+      color: #444;  
+      display: block;  
+      margin-bottom: 3px;  
+    }  
+    input, textarea, select {  
+      width: 100%;  
+      padding: 6px 8px;  
+      border-radius: 6px;  
+      border: 1px solid #ccc;  
+      font-size: 0.9rem;  
+    }  
+    textarea {  
+      resize: vertical;  
+      min-height: 60px;  
+    }  
+    .actions {  
+      grid-column: 1 / -1;  
+      display: flex;  
+      gap: 8px;  
+      justify-content: flex-end;  
+      margin-top: 4px;  
+    }  
+    button {  
+      border: none;  
+      border-radius: 20px;  
+      padding: 8px 14px;  
+      font-size: 0.9rem;  
+      cursor: pointer;  
+    }  
+    .btn-primary {  
+      background: #7b1fa2;  
+      color: #fff;  
+    }  
+    .btn-secondary {  
+      background: #e0e0e0;  
+      color: #333;  
+    }  
+    .btn-danger {  
+      background: #e53935;  
+      color: #fff;  
+    }  
+    .top-bar {  
+      display: flex;  
+      gap: 8px;  
+      margin-bottom: 10px;  
+      align-items: center;  
+      justify-content: space-between;  
+      flex-wrap: wrap;  
+    }  
+    .top-bar input {  
+      max-width: 260px;  
+    }  
+    table {  
+      width: 100%;  
+      border-collapse: collapse;  
+      font-size: 0.85rem;  
+    }  
+    thead {  
+      background: #eee;  
+    }  
+    th, td {  
+      padding: 6px 8px;  
+      border-bottom: 1px solid #ddd;  
+      text-align: left;  
+      vertical-align: top;  
+    }  
+    tr:last-child td {  
+      border-bottom: none;  
+    }  
+    .badge {  
+      display: inline-block;  
+      padding: 2px 8px;  
+      border-radius: 999px;  
+      font-size: 0.75rem;  
+      background: #ede7f6;  
+      color: #4527a0;  
+    }  
+    .small-text {  
+      font-size: 0.75rem;  
+      color: #666;  
+    }  
+    .no-data {  
+      text-align: center;  
+      padding: 10px 0;  
+      color: #777;  
+      font-size: 0.85rem;  
+    }  
+  </style>  
+</head>  
+<body>  
+  <h1>Mi Bodega de Vinos</h1>  
+  <div class="subtitle">App sencilla para llevar el control de tu bodega personal 🍷</div>  
+
+  <div class="container">  
+    <!-- Formulario -->  
+    <div class="card">  
+      <h2>Agregar / editar vino</h2>  
+      <form id="wine-form">  
+        <input type="hidden" id="wine-id" />  
+
+        <div>  
+          <label for="nombre">Nombre del vino *</label>  
+          <input id="nombre" required placeholder="Ej. Gran Reserva 904" />  
+        </div>  
+
+        <div>  
+          <label for="bodega">Bodega / Productor</label>  
+          <input id="bodega" placeholder="Ej. La Rioja Alta" />  
+        </div>  
+
+        <div>  
+          <label for="region">Región / País</label>  
+          <input id="region" placeholder="Ej. Rioja, España" />  
+        </div>  
+
+        <div>  
+          <label for="anada">Añada</label>  
+          <input id="anada" type="number" min="1900" max="2100" placeholder="Ej. 2015" />  
+        </div>  
+
+        <div>  
+          <label for="uva">Uva(s)</label>  
+          <input id="uva" placeholder="Ej. Tempranillo, Garnacha" />  
+        </div>  
+
+        <div>  
+          <label for="cantidad">Cantidad de botellas</label>  
+          <input id="cantidad" type="number" min="0" placeholder="Ej. 6" />  
+        </div>  
+
+        <div>  
+          <label for="ubicacion">Ubicación en la bodega</label>  
+          <input id="ubicacion" placeholder="Ej. Rack 2, fila 3" />  
+        </div>  
+
+        <div>  
+          <label for="precio">Precio aprox. por botella (MXN)</label>  
+          <input id="precio" type="number" min="0" step="0.01" placeholder="Ej. 850" />  
+        </div>  
+
+        <div>  
+          <label for="fecha-consumo">Fecha ideal de consumo</label>  
+          <input id="fecha-consumo" type="date" />  
+        </div>  
+
+        <div>  
+          <label for="puntuacion">Puntuación (1–100)</label>  
+          <input id="puntuacion" type="number" min="1" max="100" placeholder="Ej. 94" />  
+        </div>  
+
+        <div class="full-width">  
+          <label for="notas">Notas</label>  
+          <textarea id="notas" placeholder="Ej. Abrir 1 hora antes, ideal con carne roja."></textarea>  
+        </div>  
+
+        <div class="actions">  
+          <button type="button" class="btn-secondary" id="btn-limpiar">Limpiar</button>  
+          <button type="submit" class="btn-primary">Guardar vino</button>  
+        </div>  
+      </form>  
+    </div>  
+
+    <!-- Listado -->  
+    <div class="card">  
+      <h2>Inventario</h2>  
+      <div class="top-bar">  
+        <input id="busqueda" placeholder="Buscar por nombre, bodega, uva, región..." />  
+        <span class="small-text" id="resumen"></span>  
+      </div>  
+      <div style="overflow-x:auto;">  
+        <table>  
+          <thead>  
+            <tr>  
+              <th>Vino</th>  
+              <th>Detalles</th>  
+              <th>Ubicación / Notas</th>  
+              <th>Acciones</th>  
+            </tr>  
+          </thead>  
+          <tbody id="wine-table-body">  
+            <!-- Filas generadas por JS -->  
+          </tbody>  
+        </table>  
+      </div>  
+    </div>  
+  </div>  
+
+  <script>  
+    const STORAGE_KEY = "miBodegaVinos";  
+
+    const wineForm = document.getElementById("wine-form");  
+    const wineIdInput = document.getElementById("wine-id");  
+    const searchInput = document.getElementById("busqueda");  
+    const tableBody = document.getElementById("wine-table-body");  
+    const resumenSpan = document.getElementById("resumen");  
+    const btnLimpiar = document.getElementById("btn-limpiar");  
+
+    function getWines() {  
+      try {  
+        const raw = localStorage.getItem(STORAGE_KEY);  
+        if (!raw) return [];  
+        const parsed = JSON.parse(raw);  
+        return Array.isArray(parsed) ? parsed : [];  
+      } catch (e) {  
+        console.error("Error leyendo vinos de localStorage", e);  
+        return [];  
+      }  
+    }  
+
+    function saveWines(wines) {  
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(wines));  
+    }  
+
+    function clearForm() {  
+      wineIdInput.value = "";  
+      wineForm.reset();  
+    }  
+
+    function renderWines() {  
+      const wines = getWines();  
+      const term = searchInput.value.trim().toLowerCase();  
+      const filtered = term  
+        ? wines.filter((w) => {  
+            const campos = [  
+              w.nombre,  
+              w.bodega,  
+              w.region,  
+              w.uva,  
+              String(w.anada || "")  
+            ];  
+            return campos.some(  
+              (c) => c && c.toLowerCase().includes(term)  
+            );  
+          })  
+        : wines;  
+
+      tableBody.innerHTML = "";  
+
+      if (!filtered.length) {  
+        const tr = document.createElement("tr");  
+        const td = document.createElement("td");  
+        td.colSpan = 4;  
+        td.className = "no-data";  
+        td.textContent = "No hay vinos registrados todavía.";  
+        tr.appendChild(td);  
+        tableBody.appendChild(tr);  
+      } else {  
+        filtered.forEach((w) => {  
+          const tr = document.createElement("tr");  
+
+          const tdVino = document.createElement("td");  
+          const nombre = document.createElement("div");  
+          nombre.textContent = w.nombre || "(Sin nombre)";  
+          nombre.style.fontWeight = "600";  
+
+          const bodega = document.createElement("div");  
+          bodega.className = "small-text";  
+          const partes = [];  
+          if (w.bodega) partes.push(w.bodega);  
+          if (w.region) partes.push(w.region);  
+          if (w.anada) partes.push("Añada " + w.anada);  
+          bodega.textContent = partes.join(" • ");  
+
+          tdVino.appendChild(nombre);  
+          tdVino.appendChild(bodega);  
+
+          const tdDetalles = document.createElement("td");  
+          const detalles1 = document.createElement("div");  
+          detalles1.className = "small-text";  
+          const detPartes = [];  
+          if (w.uva) detPartes.push("Uva: " + w.uva);  
+          if (w.cantidad !== undefined && w.cantidad !== null && w.cantidad !== "")  
+            detPartes.push("Botellas: " + w.cantidad);  
+          if (w.precio !== undefined && w.precio !== null && w.precio !== "")  
+            detPartes.push("Precio: $" + w.precio + " MXN");  
+          detalles1.textContent = detPartes.join(" • ");  
+
+          const detalles2 = document.createElement("div");  
+          detalles2.className = "small-text";  
+          const det2Partes = [];  
+          if (w.fechaConsumo) det2Partes.push("Consumir idealmente: " + w.fechaConsumo);  
+          if (w.puntuacion) det2Partes.push("Puntuación: " + w.puntuacion);  
+          detalles2.textContent = det2Partes.join(" • ");  
+
+          tdDetalles.appendChild(detalles1);  
+          if (det2Partes.length) tdDetalles.appendChild(detalles2);  
+
+          const tdUbicacion = document.createElement("td");  
+          if (w.ubicacion) {  
+            const badge = document.createElement("div");  
+            badge.className = "badge";  
+            badge.textContent = w.ubicacion;  
+            tdUbicacion.appendChild(badge);  
+          }  
+          if (w.notas) {  
+            const notasDiv = document.createElement("div");  
+            notasDiv.className = "small-text";  
+            notasDiv.style.marginTop = "4px";  
+            notasDiv.textContent = w.notas;  
+            tdUbicacion.appendChild(notasDiv);  
+          }  
+
+          const tdAcciones = document.createElement("td");  
+          const btnEditar = document.createElement("button");  
+          btnEditar.textContent = "Editar";  
+          btnEditar.className = "btn-secondary";  
+          btnEditar.style.marginBottom = "4px";  
+          btnEditar.dataset.action = "edit";  
+          btnEditar.dataset.id = w.id;  
+
+          const btnBorrar = document.createElement("button");  
+          btnBorrar.textContent = "Borrar";  
+          btnBorrar.className = "btn-danger";  
+          btnBorrar.dataset.action = "delete";  
+          btnBorrar.dataset.id = w.id;  
+
+          tdAcciones.appendChild(btnEditar);  
+          tdAcciones.appendChild(document.createElement("br"));  
+          tdAcciones.appendChild(btnBorrar);  
+
+          tr.appendChild(tdVino);  
+          tr.appendChild(tdDetalles);  
+          tr.appendChild(tdUbicacion);  
+          tr.appendChild(tdAcciones);  
+
+          tableBody.appendChild(tr);  
+        });  
+      }  
+
+      const total = wines.length;  
+      const totalBotellas = wines.reduce((sum, w) => {  
+        const cantidad = parseInt(w.cantidad, 10);  
+        return sum + (isNaN(cantidad) ? 0 : cantidad);  
+      }, 0);  
+
+      resumenSpan.textContent =  
+        total + " vinos registrados • " + totalBotellas + " botellas en total";  
+    }  
+
+    wineForm.addEventListener("submit", (event) => {  
+      event.preventDefault();  
+
+      const vino = {  
+        id: wineIdInput.value || String(Date.now()),  
+        nombre: document.getElementById("nombre").value.trim(),  
+        bodega: document.getElementById("bodega").value.trim(),  
+        region: document.getElementById("region").value.trim(),  
+        anada: document.getElementById("anada").value.trim(),  
+        uva: document.getElementById("uva").value.trim(),  
+        cantidad: document.getElementById("cantidad").value.trim(),  
+        ubicacion: document.getElementById("ubicacion").value.trim(),  
+        precio: document.getElementById("precio").value.trim(),  
+        fechaConsumo: document.getElementById("fecha-consumo").value,  
+        puntuacion: document.getElementById("puntuacion").value.trim(),  
+        notas: document.getElementById("notas").value.trim()  
+      };  
+
+      if (!vino.nombre) {  
+        alert("El nombre del vino es obligatorio.");  
+        return;  
+      }  
+
+      const wines = getWines();  
+      const existingIndex = wines.findIndex((w) => w.id === vino.id);  
+
+      if (existingIndex >= 0) {  
+        wines[existingIndex] = vino;  
+      } else {  
+        wines.push(vino);  
+      }  
+
+      saveWines(wines);  
+      clearForm();  
+      renderWines();  
+    });  
+
+    btnLimpiar.addEventListener("click", () => {  
+      clearForm();  
+    });  
+
+    searchInput.addEventListener("input", () => {  
+      renderWines();  
+    });  
+
+    tableBody.addEventListener("click", (event) => {  
+      const target = event.target;  
+      if (!(target instanceof HTMLElement)) return;  
+      const action = target.dataset.action;  
+      const id = target.dataset.id;  
+      if (!action || !id) return;  
+
+      const wines = getWines();  
+      if (action === "edit") {  
+        const vino = wines.find((w) => w.id === id);  
+        if (!vino) return;  
+
+        wineIdInput.value = vino.id;  
+        document.getElementById("nombre").value = vino.nombre || "";  
+        document.getElementById("bodega").value = vino.bodega || "";  
+        document.getElementById("region").value = vino.region || "";  
+        document.getElementById("anada").value = vino.anada || "";  
+        document.getElementById("uva").value = vino.uva || "";  
+        document.getElementById("cantidad").value = vino.cantidad || "";  
+        document.getElementById("ubicacion").value = vino.ubicacion || "";  
+        document.getElementById("precio").value = vino.precio || "";  
+        document.getElementById("fecha-consumo").value = vino.fechaConsumo || "";  
+        document.getElementById("puntuacion").value = vino.puntuacion || "";  
+        document.getElementById("notas").value = vino.notas || "";  
+        window.scrollTo({ top: 0, behavior: "smooth" });  
+      } else if (action === "delete") {  
+        const confirma = confirm("¿Seguro que quieres borrar este vino de tu bodega?");  
+        if (!confirma) return;  
+        const nuevos = wines.filter((w) => w.id !== id);  
+        saveWines(nuevos);  
+        renderWines();  
+      }  
+    });  
+
+    // Inicializar  
+    renderWines();  
+  </script>  
+</body>  
+</html>  
